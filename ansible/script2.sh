@@ -36,3 +36,5 @@ EOF
 
 sudo service apache2 restart
 sudo chown -R www-data:www-data /var/www/wordpress
+cd /var/www/wordpress && sudo python3 script.py
+cd /var/www/wordpress && rm script.py
