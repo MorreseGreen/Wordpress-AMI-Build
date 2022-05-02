@@ -22,6 +22,11 @@ jobs:
           arguments: -syntax-only
           target: wordpress.pkr.hcl
 
+      # initialize packer
+      - name: Init project
+        run: packer init .
+
+      
       # build artifact
       - name: Build Artifact
         uses: hashicorp/packer-github-actions@master
