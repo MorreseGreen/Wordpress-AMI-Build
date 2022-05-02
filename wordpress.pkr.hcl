@@ -34,12 +34,8 @@ build {
   sources = [
     "source.amazon-ebs.wordpress"
   ]
-
-  provisioner "shell" {
-    script = "./script1.sh"
+    provisioner "ansible" {
+    playbook_file = "./ansible/shell-playbook.yml"
   }
 
-    provisioner "shell" {
-    script = "./script2.sh"
-  }
 }
