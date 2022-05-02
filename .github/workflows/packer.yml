@@ -1,30 +1,42 @@
-name: Terraform deploy demo
+---
+
+name: Packer
+
 on:
   push:
-    branches:
 
+jobs:
+  packer:
+    runs-on: ubuntu-latest
+    name: packer
 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      # - name: Terraform Init
-      #     env:
-      #       AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID}}
-      #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      #       AWS_DEFAULT_REGION: us-east-1
-      #     run: terraform init
+      # fix backwards incompatibilities in template
+      - name: Fix Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: fix
 
-      #   - name: Terraform Format
-      #     run: terraform fmt -check
+      # validate templates
+      - name: Validate Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: wordpress.pkr.hcl
 
-      #   - name: Terraform Plan
-      #     env:
-      #       AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID}}
-      #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      #       AWS_DEFAULT_REGION: us-east-1
-      #     run: terraform plan
-
-      #   - name: Terraform Apply
-      #     env:
-      #       AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID}}
-      #       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      #       AWS_DEFAULT_REGION: us-east-1
-      #     run: terraform apply --auto-approve
+      # build artifact
+      - name: Build Artifact
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: build
+          arguments: "-color=false -on-error=abort"
+          target: wordpress.pkr.hcl
+          working_directory: infrastructure/packer
+        env:
+          AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_DEFAULT_REGION: us-east-1
