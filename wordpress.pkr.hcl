@@ -35,7 +35,7 @@ build {
     "source.amazon-ebs.wordpress"
   ]
     provisioner "ansible" {
-    playbook_file = "./ansible/shell-playbook.yml"
+    playbook_file = "./ansible/main-playbook.yml"
   }
 
 }
