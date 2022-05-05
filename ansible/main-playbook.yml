@@ -19,6 +19,7 @@
         - libapache2-mod-php
         - unzip
         - nano
+        - boto3
 
     - name: Download latest version of Wordpress from site and unzip file
       ansible.builtin.shell: cd /var/www/ && sudo wget https://wordpress.org/latest.zip && sudo unzip latest.zip
