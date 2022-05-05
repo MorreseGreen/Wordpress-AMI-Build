@@ -1,6 +1,3 @@
-#!/bin/bash
-
-sudo bash -c "cat > /etc/apache2/sites-enabled/000-default.conf" <<EOF 
 <VirtualHost *:80>
         # The ServerName directive sets the request scheme, hostname and port that
         # the server uses to identify itself. This is used when creating
@@ -32,7 +29,3 @@ sudo bash -c "cat > /etc/apache2/sites-enabled/000-default.conf" <<EOF
 </VirtualHost>
 
 # vim: syntax=apache ts=4 sw=4 sts=4 sr noet
-EOF
-
-sudo service apache2 restart
-sudo chown -R www-data:www-data /var/www/wordpress

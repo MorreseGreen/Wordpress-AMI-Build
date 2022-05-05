@@ -1,0 +1,43 @@
+---
+- hosts: default
+  become: true
+  tasks:
+    - name: Update apt-get(yum in centos) repository
+      apt:
+        update_cache: yes
+
+    - name: Install apache2 along with other packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - apache2
+        - php
+        - php-mysql
+        - php-curl
+        - mysql-client
+        - libapache2-mod-php
+        - unzip
+        - nano
+
+    - name: Download latest version of Wordpress from site and unzip file
+      ansible.builtin.shell: cd /var/www/ && sudo wget https://wordpress.org/latest.zip && sudo unzip latest.zip
+
+    - name: Add Wp-config file to Server
+      template:
+        src: "wp-config.php.tpl"
+        dest: "/var/www/wordpress/wp-config.php"
+
+
+    - name: Edit 000-default.conf file to update default path
+      template:
+        src: "000-default.conf.tpl"
+        dest: "/etc/apache2/sites-enabled/000-default.conf"
+
+    - name: Restart apache service.
+      systemd:
+       name: apache2
+       state: restarted
+    
+    - name: Update permissions
+      ansible.builtin.shell: sudo chown -R www-data:www-data /var/www/wordpress

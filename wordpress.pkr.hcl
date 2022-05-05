@@ -28,6 +28,7 @@ source "amazon-ebs" "wordpress" {
   instance_type = "t2.micro"
   region = "us-east-1"
   ssh_username = "ubuntu"
+  iam_instance_profile = "wordpress_server_profile"
 }
 
 build {
@@ -35,7 +36,7 @@ build {
     "source.amazon-ebs.wordpress"
   ]
     provisioner "ansible" {
-    playbook_file = "./ansible/shell-playbook.yml"
+    playbook_file = "./ansible/main-playbook.yml"
   }
 
 }
