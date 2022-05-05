@@ -1,0 +1,6 @@
+---
+db_name: "{{ lookup('amazon.aws.aws_secret', 'wordpress_creds.wordpress_db_name', nested=true) }}"
+db_username: "{{ lookup('amazon.aws.aws_secret', 'wordpress_creds.wordpress_username', nested=true) }}"
+db_password: "{{ lookup('amazon.aws.aws_secret', 'wordpress_creds.wordpress_password', nested=true) }}"
+db_host_name: "{{ lookup('amazon.aws.aws_secret', 'wordpress_creds.wordpress_host_name', nested=true) }}"
+
