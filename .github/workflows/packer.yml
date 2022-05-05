@@ -33,6 +33,11 @@ jobs:
       # initialize packer
       - name: Init project
         run: packer init .
+        
+        
+      # fix session
+      - name: fix session
+        run: export "OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES"
 
       
       # build artifact
